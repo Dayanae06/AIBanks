@@ -24,19 +24,16 @@ export default function MatchCard({ match, delay = 0, onPredict }) {
   return (
     <motion.div
       className={`${styles.card} ${match.hot ? styles.hot : ''}`}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.4, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      {match.hot && (
-        <div className={styles.hotBadge}>
-          <span>🔥</span> HOT
-        </div>
-      )}
-
       {/* Header */}
       <div className={styles.header}>
-        <span className={styles.group}>Grupo {match.group}</span>
+        <div className={styles.headerLeft}>
+          <span className={styles.group}>Grupo {match.group}</span>
+          {match.hot && <span className={styles.hotBadge}>🔥 HOT</span>}
+        </div>
         <div className={styles.meta}>
           <span>{dateStr}</span>
           <span className={styles.dot}>•</span>
@@ -50,7 +47,9 @@ export default function MatchCard({ match, delay = 0, onPredict }) {
           <span className={styles.flag}>{match.home.flag}</span>
           <span className={styles.teamName}>{match.home.name}</span>
         </div>
-        <div className={styles.vs}>VS</div>
+        <div className={styles.vsWrap}>
+          <span className={styles.vs}>VS</span>
+        </div>
         <div className={styles.team}>
           <span className={styles.flag}>{match.away.flag}</span>
           <span className={styles.teamName}>{match.away.name}</span>
@@ -63,14 +62,14 @@ export default function MatchCard({ match, delay = 0, onPredict }) {
       <div className={styles.odds}>
         {[
           { key: 'home', label: match.home.code, odd: match.odds.home },
-          { key: 'draw', label: 'X', odd: match.odds.draw },
+          { key: 'draw', label: 'Empate', odd: match.odds.draw },
           { key: 'away', label: match.away.code, odd: match.odds.away },
         ].map(({ key, label, odd }) => (
           <motion.button
             key={key}
             className={`${styles.oddBtn} ${selected === key ? styles.oddSelected : ''} ${confirmed && selected === key ? styles.oddConfirmed : ''}`}
             onClick={() => handleSelect(key)}
-            whileTap={{ scale: 0.93 }}
+            whileTap={{ scale: 0.95 }}
             disabled={confirmed}
           >
             <span className={styles.oddLabel}>{label}</span>
@@ -89,9 +88,9 @@ export default function MatchCard({ match, delay = 0, onPredict }) {
             <motion.button
               className={styles.confirmBtn}
               onClick={handleConfirm}
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
+              exit={{ opacity: 0, scale: 0.85 }}
               whileTap={{ scale: 0.95 }}
             >
               Confirmar ✓
@@ -100,7 +99,7 @@ export default function MatchCard({ match, delay = 0, onPredict }) {
           {confirmed && (
             <motion.div
               className={styles.confirmedBadge}
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
             >
               ✅ Predicción enviada

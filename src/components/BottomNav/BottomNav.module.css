@@ -5,7 +5,7 @@
   right: 0;
   height: var(--bottom-nav-height);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-around;
   z-index: 1000;
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -14,20 +14,45 @@
 .bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 10, 15, 0.85) 0%, rgba(10, 10, 15, 0.98) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 215, 0, 0.08);
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   position: relative;
   z-index: 1;
   -webkit-tap-highlight-color: transparent;
+  padding-bottom: 8px;
+  padding-top: 10px;
+}
+
+.centerItem {
+  padding-top: 0;
+  padding-bottom: 8px;
+  margin-top: -18px;
+}
+
+.centerBtn {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0a0a0f;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3), 0 0 0 3px rgba(10, 10, 15, 0.95);
+  position: relative;
+}
+
+.centerActive {
+  box-shadow: 0 4px 24px rgba(255, 215, 0, 0.45), 0 0 0 3px rgba(10, 10, 15, 0.95);
 }
 
 .iconWrap {
@@ -41,31 +66,30 @@
 
 .activeBg {
   position: absolute;
-  inset: -4px -8px;
-  background: rgba(255, 215, 0, 0.12);
-  border-radius: 12px;
+  inset: -3px -6px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: var(--radius-sm);
 }
 
 .icon {
-  color: #6c6c8a;
+  color: var(--text-muted);
   position: relative;
   z-index: 1;
   transition: color 0.2s;
 }
 
 .activeIcon {
-  color: #ffd700;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+  color: var(--gold-primary);
 }
 
 .label {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 500;
-  color: #6c6c8a;
+  color: var(--text-muted);
   transition: color 0.2s;
 }
 
 .activeLabel {
-  color: #ffd700;
+  color: var(--gold-primary);
   font-weight: 600;
 }

@@ -1,0 +1,24 @@
+.flipContainer {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flipInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.flipFront,
+.flipBack {
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flipBack {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}

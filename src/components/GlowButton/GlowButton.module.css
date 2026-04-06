@@ -4,27 +4,27 @@
   justify-content: center;
   gap: 8px;
   border: none;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.15s ease;
 }
 .btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   transform: translateX(-100%);
-  transition: transform 0.6s ease;
+  transition: transform 0.5s ease;
 }
 .btn:active::before {
   transform: translateX(100%);
 }
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
@@ -32,44 +32,44 @@
 .gold {
   background: linear-gradient(135deg, #ffd700, #ffaa00);
   color: #0a0a0f;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.25);
 }
 .gold:hover:not(:disabled) {
-  box-shadow: 0 4px 25px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 4px 24px rgba(255, 215, 0, 0.4);
 }
 
 .outline {
   background: transparent;
-  color: #ffd700;
-  border: 2px solid rgba(255, 215, 0, 0.4);
+  color: var(--gold-primary);
+  border: 1.5px solid rgba(255, 215, 0, 0.3);
 }
 .outline:hover:not(:disabled) {
-  border-color: #ffd700;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.15);
 }
 
 .green {
   background: linear-gradient(135deg, #00e676, #00c853);
   color: #0a0a0f;
-  box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 230, 118, 0.25);
 }
 
 .purple {
   background: linear-gradient(135deg, #d500f9, #aa00ff);
   color: white;
-  box-shadow: 0 4px 15px rgba(213, 0, 249, 0.3);
+  box-shadow: 0 4px 16px rgba(213, 0, 249, 0.25);
 }
 
 .ghost {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
 }
 
 /* Sizes */
-.sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 10px; }
-.md { padding: 12px 24px; font-size: 0.9rem; }
-.lg { padding: 16px 32px; font-size: 1rem; border-radius: 16px; }
+.sm { padding: 8px 18px; font-size: 0.78rem; border-radius: var(--radius-sm); }
+.md { padding: 12px 24px; font-size: 0.88rem; }
+.lg { padding: 14px 32px; font-size: 0.95rem; border-radius: var(--radius-md); }
 
 .full { width: 100%; }
 
