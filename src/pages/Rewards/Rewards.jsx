@@ -5,7 +5,6 @@ import FlipCard from '../../components/FlipCard/FlipCard';
 import RippleButton from '../../components/RippleButton/RippleButton';
 import FireworksBackground from '../../components/FireworksBackground/FireworksBackground';
 import AnimatedCounter from '../../components/AnimatedCounter/AnimatedCounter';
-import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { REWARDS_CATALOG, USER_PROFILE } from '../../data/mockData';
 import styles from './Rewards.module.css';
@@ -28,7 +27,6 @@ const staggerItem = {
 };
 
 export default function Rewards() {
-  const { user } = useAuth();
   const { theme } = useTheme();
   const archetype = localStorage.getItem('archetype') || 'moderado'; // Default to moderado
   const [activeCategory, setActiveCategory] = useState('all');
@@ -194,7 +192,7 @@ export default function Rewards() {
           animate="show"
           exit={{ opacity: 0, y: -10 }}
         >
-          {filtered.map((reward) => {
+          {filtered.map((reward, index) => {
             const canAfford = USER_PROFILE.points >= reward.cost;
             const isRedeemed = redeemed[reward.id];
 
@@ -215,7 +213,7 @@ export default function Rewards() {
                       <motion.span
                         className={styles.rewardIcon}
                         animate={{ y: [0, -3, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: Math.random() }}
+                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.08 }}
                       >
                         {reward.icon}
                       </motion.span>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Lightning, TrendUp, Fire, Trophy, Gift, Eye, EyeSlash, ArrowRight, Target, Coin, Crown, Star, Handshake, Check, X } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';

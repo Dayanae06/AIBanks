@@ -201,7 +201,7 @@ export default function Profile() {
           initial="hidden"
           animate="show"
         >
-          {USER_PROFILE.achievements.map((ach) => (
+          {USER_PROFILE.achievements.map((ach, index) => (
             <motion.div
               key={ach.id}
               className={`${styles.achBadge} ${!ach.unlocked ? styles.achLocked : ''}`}
@@ -211,7 +211,7 @@ export default function Profile() {
               <motion.span
                 className={styles.achIcon}
                 animate={ach.unlocked ? { y: [0, -3, 0] } : {}}
-                transition={{ duration: 2, repeat: Infinity, delay: Math.random() * 2 }}
+                transition={{ duration: 2, repeat: Infinity, delay: index * 0.12 }}
               >
                 {ach.icon}
               </motion.span>
