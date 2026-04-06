@@ -1,5 +1,5 @@
 .page {
-  padding: 0 16px calc(var(--bottom-nav-height) + 20px);
+  padding: 0 20px calc(var(--bottom-nav-height) + 20px);
   position: relative;
 }
 
@@ -15,25 +15,40 @@
 }
 
 .header {
-  padding: 20px 0 16px;
+  padding: 20px 0 14px;
 }
 .title {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  margin-bottom: 12px;
 }
 
+/* Balance */
 .balance {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 170, 0, 0.04));
-  border: 1px solid rgba(255, 215, 0, 0.15);
-  border-radius: 14px;
-  padding: 14px 18px;
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-surface));
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.balance::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+}
+.balanceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .balanceLabel {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 .balanceValue {
@@ -43,53 +58,26 @@
 }
 .balanceNum {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  color: #ffd700;
+  color: var(--gold-primary);
 }
 .balanceCurrency {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-weight: 500;
 }
-
-/* VIP */
-.vipBanner {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), rgba(213, 0, 249, 0.04));
-  border: 1px solid rgba(255, 215, 0, 0.12);
-  border-radius: 14px;
-  padding: 14px 16px;
+.vipTag {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-.vipLeft {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.vipIcon {
-  font-size: 1.6rem;
-}
-.vipTitle {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #ffd700;
-}
-.vipDesc {
-  font-size: 0.68rem;
-  color: var(--text-muted);
-}
-.vipMultiplier {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 900;
-  color: #00e676;
-  background: rgba(0, 230, 118, 0.1);
+  gap: 4px;
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid var(--border-gold);
   padding: 6px 12px;
-  border-radius: 10px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--gold-primary);
 }
 
 /* Categories */
@@ -104,20 +92,22 @@
 
 .catBtn {
   flex-shrink: 0;
-  padding: 8px 16px;
+  padding: 9px 16px;
   border-radius: 20px;
   font-size: 0.73rem;
   font-weight: 600;
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
   white-space: nowrap;
   transition: all 0.2s ease;
+  min-height: 38px;
+  position: relative;
 }
 .catActive {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 170, 0, 0.08));
-  color: #ffd700;
-  border-color: rgba(255, 215, 0, 0.3);
+  background: rgba(255, 215, 0, 0.1);
+  color: var(--gold-primary);
+  border-color: var(--border-gold);
 }
 
 /* Grid */
@@ -128,9 +118,9 @@
 }
 
 .rewardCard {
-  background: linear-gradient(145deg, #1a1a2e, #16213e);
-  border: 1px solid rgba(255, 215, 0, 0.06);
-  border-radius: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   padding: 16px;
   position: relative;
   overflow: hidden;
@@ -140,23 +130,83 @@
 .rewardCard::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.12), transparent);
+}
+
+/* Fireworks overlay */
+.fireworksOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.redeemCelebration {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-xl);
+  padding: 28px 36px;
+}
+.celebIcon {
+  font-size: 3rem;
+}
+.celebText {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--gold-primary);
+}
+.celebName {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.rewardCardBack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(145deg, var(--bg-surface), var(--bg-card));
+}
+.flipHint {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 8px;
+  opacity: 0.6;
+}
+.catIndicator {
+  position: absolute;
+  bottom: -2px;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--gold-primary);
+  border-radius: 1px;
 }
 
 .redeemed {
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 .popularTag {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgba(255, 215, 0, 0.15);
-  color: #ffd700;
+  background: rgba(255, 215, 0, 0.12);
+  color: var(--gold-primary);
   font-size: 0.55rem;
   font-weight: 700;
   padding: 3px 8px;
@@ -174,7 +224,7 @@
   color: var(--text-primary);
 }
 .rewardDesc {
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
   line-height: 1.4;
   margin-bottom: 12px;
@@ -195,12 +245,12 @@
   font-family: var(--font-display);
   font-size: 0.8rem;
   font-weight: 700;
-  color: #ffd700;
+  color: var(--gold-primary);
 }
 
 .redeemedBadge {
   font-size: 0.72rem;
-  color: #00e676;
+  color: var(--accent-green);
   font-weight: 600;
   text-align: center;
   padding: 6px;

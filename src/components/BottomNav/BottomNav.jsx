@@ -11,8 +11,8 @@ import styles from './BottomNav.module.css';
 
 const NAV_ITEMS = [
   { to: '/', icon: House, label: 'Inicio' },
-  { to: '/predictions', icon: Target, label: 'Predecir' },
   { to: '/rewards', icon: Gift, label: 'Premios' },
+  { to: '/predictions', icon: Target, label: 'Predecir', center: true },
   { to: '/leaderboard', icon: Trophy, label: 'Ranking' },
   { to: '/profile', icon: UserCircle, label: 'Perfil' },
 ];
@@ -23,27 +23,39 @@ export default function BottomNav() {
   return (
     <nav className={styles.nav}>
       <div className={styles.bg} />
-      {NAV_ITEMS.map(({ to, icon: Icon, label }) => {
+      {NAV_ITEMS.map(({ to, icon: Icon, label, center }) => {
         const isActive = location.pathname === to;
         return (
-          <NavLink key={to} to={to} className={styles.item}>
-            <div className={styles.iconWrap}>
-              {isActive && (
-                <motion.div
-                  className={styles.activeBg}
-                  layoutId="activeTab"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-              <Icon
-                size={24}
-                weight={isActive ? 'fill' : 'regular'}
-                className={`${styles.icon} ${isActive ? styles.activeIcon : ''}`}
-              />
-            </div>
-            <span className={`${styles.label} ${isActive ? styles.activeLabel : ''}`}>
-              {label}
-            </span>
+          <NavLink key={to} to={to} className={`${styles.item} ${center ? styles.centerItem : ''}`}>
+            {center ? (
+              <motion.div
+                className={`${styles.centerBtn} ${isActive ? styles.centerActive : ''}`}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+              >
+                <Icon size={26} weight="bold" />
+              </motion.div>
+            ) : (
+              <>
+                <div className={styles.iconWrap}>
+                  {isActive && (
+                    <motion.div
+                      className={styles.activeBg}
+                      layoutId="activeTab"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <Icon
+                    size={23}
+                    weight={isActive ? 'fill' : 'regular'}
+                    className={`${styles.icon} ${isActive ? styles.activeIcon : ''}`}
+                  />
+                </div>
+                <span className={`${styles.label} ${isActive ? styles.activeLabel : ''}`}>
+                  {label}
+                </span>
+              </>
+            )}
           </NavLink>
         );
       })}

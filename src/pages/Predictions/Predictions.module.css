@@ -1,12 +1,12 @@
 .page {
-  padding: 0 16px calc(var(--bottom-nav-height) + 20px);
+  padding: 0 20px calc(var(--bottom-nav-height) + 20px);
 }
 
 .header {
   padding: 20px 0 16px;
 }
 .title {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 800;
   margin-bottom: 4px;
 }
@@ -28,21 +28,30 @@
 
 .filterBtn {
   flex-shrink: 0;
-  padding: 8px 18px;
+  padding: 9px 18px;
   border-radius: 20px;
   font-size: 0.78rem;
   font-weight: 600;
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
   white-space: nowrap;
   transition: all 0.2s ease;
+  min-height: 38px;
+  position: relative;
+  overflow: hidden;
+}
+.filterIndicator {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 20px;
+  border: 1px solid var(--border-gold);
+  z-index: -1;
 }
 .filterActive {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 170, 0, 0.08));
-  color: #ffd700;
-  border-color: rgba(255, 215, 0, 0.3);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+  color: var(--gold-primary);
+  border-color: transparent;
 }
 
 /* Stats Bar */
@@ -50,33 +59,39 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: linear-gradient(145deg, #1a1a2e, #16213e);
-  border: 1px solid rgba(255, 215, 0, 0.06);
-  border-radius: 14px;
-  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
   margin-bottom: 18px;
 }
 .stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
 }
 .statValue {
   font-family: var(--font-display);
   font-size: 0.95rem;
   font-weight: 700;
-  color: #ffd700;
+  color: var(--gold-primary);
+}
+.statValueGold {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-green);
 }
 .statLabel {
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   font-weight: 500;
 }
 .statDivider {
   width: 1px;
   height: 28px;
-  background: rgba(255, 215, 0, 0.1);
+  background: var(--border-subtle);
 }
 
 .matchList {

@@ -4,10 +4,22 @@ import {
   Gear,
   ShieldCheck,
   Info,
+  CaretRight,
 } from '@phosphor-icons/react';
-import CasinoCard from '../../components/CasinoCard/CasinoCard';
+import FlipCard from '../../components/FlipCard/FlipCard';
+import StarsBackground from '../../components/StarsBackground/StarsBackground';
+import AnimatedCounter from '../../components/AnimatedCounter/AnimatedCounter';
 import { USER_PROFILE } from '../../data/mockData';
 import styles from './Profile.module.css';
+
+const staggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+};
+const staggerItem = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 22 } },
+};
 
 export default function Profile() {
   const accuracy = USER_PROFILE.winRate;
@@ -21,64 +33,98 @@ export default function Profile() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h2 className={styles.title}>👤 Mi Perfil</h2>
+        <h2 className={styles.title}>Mi Perfil</h2>
       </motion.div>
 
-      {/* Profile Card */}
+      {/* Profile Card with Stars */}
       <motion.div
         className={styles.profileCard}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
+        transition={{ delay: 0.1, type: 'spring', stiffness: 200, damping: 20 }}
       >
-        <div className={styles.profileBg} />
+        <StarsBackground count={20} />
         <div className={styles.profileContent}>
-          <div className={styles.avatarWrap}>
+          <motion.div
+            className={styles.avatarWrap}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: 'spring', stiffness: 300 }}
+          >
             <span className={styles.avatar}>{USER_PROFILE.avatar}</span>
-            <span className={styles.tierBadge}>👑</span>
+            <motion.span
+              className={styles.tierBadge}
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              👑
+            </motion.span>
+          </motion.div>
+          <div className={styles.profileInfo}>
+            <h3 className={styles.name}>{USER_PROFILE.name}</h3>
+            <motion.span
+              className={styles.tier}
+              animate={{ boxShadow: ['0 0 0 rgba(255,215,0,0)', '0 0 12px rgba(255,215,0,0.3)', '0 0 0 rgba(255,215,0,0)'] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              {USER_PROFILE.tier}
+            </motion.span>
           </div>
-          <h3 className={styles.name}>{USER_PROFILE.name}</h3>
-          <span className={styles.tier}>{USER_PROFILE.tier}</span>
           <div className={styles.pointsBig}>
             <span>🪙</span>
-            <span className={styles.pointsNum}>{USER_PROFILE.points.toLocaleString()}</span>
+            <AnimatedCounter
+              value={USER_PROFILE.points.toLocaleString()}
+              className={styles.pointsNum}
+            />
             <span className={styles.ptsCurrency}>puntos</span>
           </div>
         </div>
       </motion.div>
 
-      {/* Stats Grid */}
-      <div className={styles.statsGrid}>
-        <CasinoCard delay={0.15} glow>
-          <div className={styles.statBox}>
-            <div className={styles.ringWrap}>
-              <svg viewBox="0 0 100 100" className={styles.ring}>
-                <circle
-                  cx="50" cy="50" r="42"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.05)"
-                  strokeWidth="6"
-                />
-                <circle
-                  cx="50" cy="50" r="42"
-                  fill="none"
-                  stroke="#ffd700"
-                  strokeWidth="6"
-                  strokeLinecap="round"
-                  strokeDasharray={circumference}
-                  strokeDashoffset={offset}
-                  transform="rotate(-90 50 50)"
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(255,215,0,0.5))' }}
-                />
-              </svg>
-              <span className={styles.ringValue}>{accuracy}%</span>
-            </div>
-            <span className={styles.statBoxLabel}>Precisión</span>
-          </div>
-        </CasinoCard>
+      {/* Stats Grid - FlipCards for each stat */}
+      <motion.div
+        className={styles.statsGrid}
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
+        {/* Precision - FlipCard shows details on back */}
+        <motion.div variants={staggerItem}>
+          <FlipCard
+            front={
+              <div className={styles.statCard}>
+                <div className={styles.ringWrap}>
+                  <svg viewBox="0 0 100 100" className={styles.ring}>
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="6" />
+                    <motion.circle
+                      cx="50" cy="50" r="42" fill="none" stroke="#ffd700" strokeWidth="6" strokeLinecap="round"
+                      strokeDasharray={circumference}
+                      initial={{ strokeDashoffset: circumference }}
+                      animate={{ strokeDashoffset: offset }}
+                      transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
+                      transform="rotate(-90 50 50)"
+                    />
+                  </svg>
+                  <span className={styles.ringValue}>{accuracy}%</span>
+                </div>
+                <span className={styles.statBoxLabel}>Precisión</span>
+                <span className={styles.flipHint}>Toca para detalles</span>
+              </div>
+            }
+            back={
+              <div className={`${styles.statCard} ${styles.statCardBack}`}>
+                <span className={styles.statBigNum}>✅ {USER_PROFILE.correctPredictions}</span>
+                <span className={styles.statBoxLabel}>Aciertos de {USER_PROFILE.totalPredictions}</span>
+                <span className={styles.statBigNum} style={{ color: '#ff1744' }}>❌ {USER_PROFILE.totalPredictions - USER_PROFILE.correctPredictions}</span>
+                <span className={styles.statBoxLabel}>Errores</span>
+              </div>
+            }
+          />
+        </motion.div>
 
-        <CasinoCard delay={0.2} glow>
-          <div className={styles.statBox}>
+        {/* Predictions */}
+        <motion.div variants={staggerItem}>
+          <div className={styles.statCard}>
             <span className={styles.statBigNum}>{USER_PROFILE.totalPredictions}</span>
             <span className={styles.statBoxLabel}>Predicciones</span>
             <div className={styles.statMini}>
@@ -88,66 +134,88 @@ export default function Profile() {
               </span>
             </div>
           </div>
-        </CasinoCard>
+        </motion.div>
 
-        <CasinoCard delay={0.25} glow>
-          <div className={styles.statBox}>
-            <span className={styles.statBigNum}>#{USER_PROFILE.rank}</span>
+        {/* Ranking */}
+        <motion.div variants={staggerItem}>
+          <div className={styles.statCard}>
+            <AnimatedCounter value={`#${USER_PROFILE.rank}`} className={styles.statBigNum} />
             <span className={styles.statBoxLabel}>Ranking</span>
           </div>
-        </CasinoCard>
+        </motion.div>
 
-        <CasinoCard delay={0.3} glow>
-          <div className={styles.statBox}>
-            <span className={styles.statBigNum}>{USER_PROFILE.streak} 🔥</span>
+        {/* Streak */}
+        <motion.div variants={staggerItem}>
+          <div className={styles.statCard}>
+            <motion.span
+              className={styles.statBigNum}
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              {USER_PROFILE.streak} 🔥
+            </motion.span>
             <span className={styles.statBoxLabel}>Racha</span>
           </div>
-        </CasinoCard>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {/* Achievements */}
+      {/* Achievements with stagger */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>🏅 Logros</h3>
-        <div className={styles.achievements}>
-          {USER_PROFILE.achievements.map((ach, i) => (
+        <motion.div
+          className={styles.achievements}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
+          {USER_PROFILE.achievements.map((ach) => (
             <motion.div
               key={ach.id}
               className={`${styles.achBadge} ${!ach.unlocked ? styles.achLocked : ''}`}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 + i * 0.06 }}
-              whileTap={{ scale: 0.92 }}
+              variants={staggerItem}
+              whileTap={{ scale: 0.92, rotate: ach.unlocked ? [0, -3, 3, 0] : 0 }}
             >
-              <span className={styles.achIcon}>{ach.icon}</span>
+              <motion.span
+                className={styles.achIcon}
+                animate={ach.unlocked ? { y: [0, -3, 0] } : {}}
+                transition={{ duration: 2, repeat: Infinity, delay: Math.random() * 2 }}
+              >
+                {ach.icon}
+              </motion.span>
               <span className={styles.achName}>{ach.name}</span>
               {!ach.unlocked && <span className={styles.achLock}>🔒</span>}
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Recent Activity */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>📊 Actividad Reciente</h3>
-        <div className={styles.activity}>
+        <motion.div
+          className={styles.activity}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {USER_PROFILE.recentActivity.map((act, i) => (
             <motion.div
               key={i}
               className={styles.actItem}
-              initial={{ opacity: 0, x: -15 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 + i * 0.06 }}
+              variants={staggerItem}
             >
               <div className={styles.actLeft}>
-                <span
+                <motion.span
                   className={styles.actDot}
                   style={{
                     background: act.result === 'win' ? '#00e676' : '#ff1744',
-                    boxShadow:
-                      act.result === 'win'
-                        ? '0 0 8px rgba(0,230,118,0.5)'
-                        : '0 0 8px rgba(255,23,68,0.5)',
                   }}
+                  animate={{
+                    boxShadow: act.result === 'win'
+                      ? ['0 0 0 rgba(0,230,118,0)', '0 0 10px rgba(0,230,118,0.5)', '0 0 0 rgba(0,230,118,0)']
+                      : ['0 0 0 rgba(255,23,68,0)', '0 0 10px rgba(255,23,68,0.5)', '0 0 0 rgba(255,23,68,0)'],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
                 />
                 <div>
                   <div className={styles.actMatch}>{act.match}</div>
@@ -162,12 +230,17 @@ export default function Profile() {
               </span>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Menu Items */}
       <section className={styles.section}>
-        <div className={styles.menuList}>
+        <motion.div
+          className={styles.menuList}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {[
             { icon: <Gear size={20} weight="bold" />, label: 'Configuración' },
             { icon: <ShieldCheck size={20} weight="bold" />, label: 'Seguridad' },
@@ -181,21 +254,35 @@ export default function Profile() {
             <motion.button
               key={i}
               className={`${styles.menuItem} ${item.danger ? styles.menuDanger : ''}`}
-              whileTap={{ scale: 0.97 }}
+              variants={staggerItem}
+              whileTap={{ scale: 0.98, x: 4 }}
             >
-              <span className={styles.menuIcon}>{item.icon}</span>
-              <span>{item.label}</span>
+              <div className={styles.menuItemLeft}>
+                <span className={styles.menuIcon}>{item.icon}</span>
+                <span>{item.label}</span>
+              </div>
+              <motion.span
+                animate={{ x: [0, 3, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+              >
+                <CaretRight size={16} weight="bold" className={styles.menuChevron} />
+              </motion.span>
             </motion.button>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
-      <div className={styles.footer}>
+      <motion.div
+        className={styles.footer}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+      >
         <span className={styles.footerBrand}>AI Banks Ecuador</span>
         <span className={styles.footerPowered}>powered by <strong>TCS</strong></span>
         <span className={styles.footerVersion}>v1.0.0</span>
-      </div>
+      </motion.div>
     </div>
   );
 }
