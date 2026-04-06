@@ -10,10 +10,7 @@ import {
   Sun,
   Crown,
   Fire,
-  Coin,
 } from '@phosphor-icons/react';
-import FlipCard from '../../components/FlipCard/FlipCard';
-import StarsBackground from '../../components/StarsBackground/StarsBackground';
 import AnimatedCounter from '../../components/AnimatedCounter/AnimatedCounter';
 import { USER_PROFILE, UPCOMING_MATCHES } from '../../data/mockData';
 import { useAuth } from '../../context/AuthContext';
