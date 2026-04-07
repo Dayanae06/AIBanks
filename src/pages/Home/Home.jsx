@@ -10,6 +10,7 @@ import RippleButton from '../../components/RippleButton/RippleButton';
 import FifaLive from '../../components/FifaLive/FifaLive';
 import { UPCOMING_MATCHES, USER_PROFILE } from '../../data/mockData';
 import { useWorldCupMatches } from '../../hooks/useWorldCupMatches';
+import { useTier } from '../../hooks/useTier';
 import styles from './Home.module.css';
 
 // Staggered children animation
@@ -24,6 +25,7 @@ const staggerItem = {
 
 export default function Home() {
   const navigate = useNavigate();
+  const tier = useTier();
   const [showBalance, setShowBalance] = useState(true);
   const [claimedBonus, setClaimedBonus] = useState(false);
   const [popEye, setPopEye] = useState(false);

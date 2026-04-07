@@ -6,6 +6,7 @@ import RippleButton from '../../components/RippleButton/RippleButton';
 import FireworksBackground from '../../components/FireworksBackground/FireworksBackground';
 import AnimatedCounter from '../../components/AnimatedCounter/AnimatedCounter';
 import { useTheme } from '../../context/ThemeContext';
+import { useTier } from '../../hooks/useTier';
 import { REWARDS_CATALOG, USER_PROFILE } from '../../data/mockData';
 import styles from './Rewards.module.css';
 
@@ -28,6 +29,7 @@ const staggerItem = {
 
 export default function Rewards() {
   const { theme } = useTheme();
+  const tier = useTier();
   const getValidArchetype = () => {
     const saved = localStorage.getItem('archetype');
     return ['competidor', 'acumulador', 'practico'].includes(saved) ? saved : null;
@@ -264,7 +266,7 @@ export default function Rewards() {
           transition={{ duration: 2, repeat: Infinity }}
         >
           <Crown size={16} />
-          <span>{USER_PROFILE.tier}</span>
+          <span>{tier}</span>
         </motion.div>
       </motion.div>
 
