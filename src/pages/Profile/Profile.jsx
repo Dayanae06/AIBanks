@@ -19,6 +19,7 @@ import { LEADERBOARD_DATA, USER_PROFILE, UPCOMING_MATCHES } from '../../data/moc
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useWorldCupMatches } from '../../hooks/useWorldCupMatches';
+import { useTier } from '../../hooks/useTier';
 import styles from './Profile.module.css';
 
 const staggerContainer = {
@@ -32,9 +33,10 @@ const staggerItem = {
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { matches } = useWorldCupMatches();
+  const tier = useTier();
   const [predictions] = useState(() => {
     try {
       const stored = localStorage.getItem('predictions');
@@ -105,13 +107,13 @@ export default function Profile() {
             </motion.span>
           </motion.div>
           <div className={styles.profileInfo}>
-            <h3 className={styles.name}>{USER_PROFILE.name}</h3>
+            <h3 className={styles.name}>{user?.name || USER_PROFILE.name}</h3>
             <motion.span
               className={styles.tier}
               animate={{ boxShadow: ['0 0 0 rgba(255,215,0,0)', '0 0 12px rgba(255,215,0,0.3)', '0 0 0 rgba(255,215,0,0)'] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              {USER_PROFILE.tier}
+              {tier}
             </motion.span>
           </div>
           <div className={styles.pointsBig}>
